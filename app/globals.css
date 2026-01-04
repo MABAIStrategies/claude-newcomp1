@@ -1,0 +1,86 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* MAB AI Strategies - Global Styles */
+
+@layer base {
+  :root {
+    --gold-glow: 0 0 20px rgba(212, 175, 55, 0.3);
+    --gold-glow-strong: 0 0 40px rgba(212, 175, 55, 0.6);
+  }
+
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-starry-night text-off-white;
+    font-feature-settings: 'rlig' 1, 'calt' 1;
+  }
+
+  /* Custom scrollbar */
+  ::-webkit-scrollbar {
+    width: 10px;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-midnight-navy;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-champagne-gold rounded-full;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-champagne-gold/80;
+  }
+}
+
+@layer components {
+  /* Gold gradient text effect */
+  .gold-gradient-text {
+    @apply bg-gradient-to-r from-champagne-gold via-yellow-400 to-champagne-gold bg-clip-text text-transparent;
+  }
+
+  /* Glass morphism effect */
+  .glass-morph {
+    @apply bg-white/5 backdrop-blur-md border border-white/10;
+  }
+
+  /* Gold border effect */
+  .gold-border {
+    @apply border border-champagne-gold/30;
+  }
+
+  /* Hover gold glow */
+  .hover-gold-glow {
+    @apply transition-shadow duration-300;
+  }
+
+  .hover-gold-glow:hover {
+    box-shadow: var(--gold-glow-strong);
+  }
+}
+
+@layer utilities {
+  /* Custom animations */
+  .animate-pulse-slow {
+    animation: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+
+  /* Text shadow for headings */
+  .text-shadow-gold {
+    text-shadow: 0 0 20px rgba(212, 175, 55, 0.5);
+  }
+}
+
+/* Smooth scroll behavior */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Selection color */
+::selection {
+  @apply bg-champagne-gold text-starry-night;
+}
