@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Input, Button, Card } from '@/components/ui';
 import { SITE_CONFIG } from '@/lib/constants';
+import { trackFormStart, trackFormSubmit } from '@/lib/api/analytics';
 
 export default function ContactPage() {
   const [formData, setFormData] = useState({
@@ -39,23 +40,50 @@ export default function ContactPage() {
     if (!validateForm()) return;
 
     setIsSubmitting(true);
+    trackFormStart('contact_form');
 
-    // Simulate form submission (replace with actual Webform3 integration in Phase 4)
-    await new Promise((resolve) => setTimeout(resolve, 1500));
+    try {
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          ...formData,
+          source: 'contact_page',
+        }),
+      });
 
-    setIsSubmitting(false);
-    setSubmitted(true);
+      const result = await response.json();
 
-    // Reset form
-    setFormData({
-      name: '',
-      email: '',
-      phone: '',
-      company: '',
-      service: '',
-      budget: '',
-      message: '',
-    });
+      if (result.success) {
+        setSubmitted(true);
+        trackFormSubmit('contact_form', true);
+
+        // Reset form
+        setFormData({
+          name: '',
+          email: '',
+          phone: '',
+          company: '',
+          service: '',
+          budget: '',
+          message: '',
+        });
+      } else {
+        // Handle API errors
+        const errorMsg = result.error || 'Submission failed. Please try again.';
+        setErrors({ submit: errorMsg });
+        trackFormSubmit('contact_form', false, errorMsg);
+      }
+    } catch (error) {
+      console.error('Contact form error:', error);
+      const errorMsg = 'An unexpected error occurred. Please try again.';
+      setErrors({ submit: errorMsg });
+      trackFormSubmit('contact_form', false, errorMsg);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleChange = (

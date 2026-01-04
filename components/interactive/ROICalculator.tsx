@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import {
   LineChart,
@@ -16,6 +16,7 @@ import {
 } from 'recharts';
 import { Card, Input, Button } from '@/components/ui';
 import { calculateROI, formatCurrency } from '@/lib/utils';
+import { trackROICalculatorUse, trackPDFDownload } from '@/lib/api/analytics';
 
 interface ROICalculatorProps {
   onGeneratePDF?: (data: ROIData) => void;
@@ -48,6 +49,15 @@ export default function ROICalculator({ onGeneratePDF }: ROICalculatorProps) {
   });
 
   const netAnnualSavings = roi.annual - softwareOverhead;
+
+  // Track ROI calculator usage when values change
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      trackROICalculatorUse(employees, hoursSavedPerWeek, roi.annual);
+    }, 1000); // Debounce tracking
+
+    return () => clearTimeout(timer);
+  }, [employees, hoursSavedPerWeek, roi.annual]);
 
   // Generate timeline data for 12 months
   const timelineData = Array.from({ length: 12 }, (_, i) => {
@@ -95,12 +105,15 @@ export default function ROICalculator({ onGeneratePDF }: ROICalculatorProps) {
       results: roi,
     };
 
+    // Track PDF download
+    trackPDFDownload('roi_report');
+
     if (onGeneratePDF) {
       onGeneratePDF(data);
     }
 
-    // Simulate PDF generation
-    alert(`PDF Report will be sent to: ${email}\n\n(PDF generation will be implemented in Phase 4 with backend integration)`);
+    // Simulate PDF generation (will be replaced with real implementation)
+    alert(`PDF Report will be sent to: ${email}\n\n(PDF generation will be implemented with backend integration)`);
     setShowEmailCapture(false);
   };
 
