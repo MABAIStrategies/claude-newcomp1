@@ -48,4 +48,5 @@ export const ROUTES = {
   testimonials: '/testimonials',
   about: '/about',
   contact: '/contact',
+  roiCalculator: '/roi-calculator',
 } as const;
