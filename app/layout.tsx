@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { Cinzel, Inter } from 'next/font/google';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
+import CursorTrail from '@/components/interactive/CursorTrail';
 import './globals.css';
 
 const cinzel = Cinzel({
@@ -32,6 +33,7 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${cinzel.variable} ${inter.variable}`}>
       <body className="font-inter antialiased bg-starry-night text-off-white">
+        <CursorTrail />
         <Header />
         <main className="min-h-screen pt-20">{children}</main>
         <Footer />
