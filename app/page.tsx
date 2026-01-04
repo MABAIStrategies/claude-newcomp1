@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { Button, Card } from '@/components/ui';
+import { AnimatedLogo } from '@/components/interactive';
 import { ROUTES, SERVICES } from '@/lib/constants';
 import { formatCurrency } from '@/lib/utils';
 
@@ -55,28 +56,14 @@ export default function Home() {
         </div>
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 text-center">
-          {/* Animated MAB Logo Placeholder */}
+          {/* Enhanced Animated MAB Logo */}
           <motion.div
             initial={{ scale: 0.8, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             transition={{ duration: 0.8 }}
             className="mb-12 flex justify-center"
           >
-            <motion.div
-              animate={{
-                boxShadow: [
-                  '0 0 20px rgba(212, 175, 55, 0.3)',
-                  '0 0 60px rgba(212, 175, 55, 0.6)',
-                  '0 0 20px rgba(212, 175, 55, 0.3)',
-                ],
-              }}
-              transition={{ duration: 3, repeat: Infinity }}
-              className="w-32 h-32 rounded-2xl bg-gradient-to-br from-champagne-gold to-yellow-600 flex items-center justify-center"
-            >
-              <span className="font-cinzel text-6xl font-bold text-starry-night">
-                MAB
-              </span>
-            </motion.div>
+            <AnimatedLogo size="lg" interactive />
           </motion.div>
 
           <motion.h1
