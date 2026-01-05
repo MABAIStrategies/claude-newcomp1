@@ -10,10 +10,6 @@
     --gold-glow-strong: 0 0 40px rgba(212, 175, 55, 0.6);
   }
 
-  * {
-    @apply border-border;
-  }
-
   body {
     @apply bg-starry-night text-off-white;
     font-feature-settings: 'rlig' 1, 'calt' 1;
